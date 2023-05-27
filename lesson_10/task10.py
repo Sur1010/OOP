@@ -1,17 +1,17 @@
-import datetime 
+from datetime import datetime
 # 1
 def Login_Decorator(func):
     def wrapper(login, password):
         try:
             func(login, password)
-        except Exception as i:
+        except Exception as e:
             with open("log.txt", "a") as f:
-                f.write(f"{datetime.datetime.now()}")
+                f.write(f"{e} {datetime.now()}\n")
 
     return wrapper            
 
 def Login(login, password):
-    if login and password == "admin":
+    if login == "admin" and password == "admin":
         return True
     else:
         raise Exception("Invalid User")  
@@ -20,14 +20,14 @@ login = Login_Decorator(Login)
 login("admin","user")
 
 # 3
-class SignIn:
+class User:
     def __init__(self, login, password):
         self.login = login
         self.password = password
         self.f = open("log.txt" , "a")
 
     def do_login(self):
-        if self.login and self.password == "admin":
+        if self.login == "admin"  and self.password == "admin":
             return True
         else:
             raise Exception("Invalid User")
@@ -43,9 +43,9 @@ class SignIn:
             print("successful")
             self.f.close()
         else:
-            self.write(exc_value, exc_tb, datetime.datetime.now())
+            self.write(exc_value, exc_tb, datetime.now())
 
             return True
 
-with SignIn("admin" ,"admin") as f:
+with User("admin" ,"admin") as f:
     f.do_login()
